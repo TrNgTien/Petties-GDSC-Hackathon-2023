@@ -1,12 +1,11 @@
 const userRoute = require("./UserRoute");
 const authRoute = require("./AuthRoute");
-const socialFeedRoute = require("./SocialFeedRoute.js");
-// const friendRoute = require("./FriendRoute");
+const postRoute = require("./PostRoute.js");
 
 function routes(app) {
   app.use('/user', userRoute);
   app.use('/auth', authRoute);
-  app.use('/post', socialFeedRoute);
-  // app.use(route.FRIEND, friendRoute);
+  app.use('/post', postRoute);
 }
+
 module.exports = routes;
