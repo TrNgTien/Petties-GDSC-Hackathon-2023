@@ -11,66 +11,77 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// let tokenFCM = '';
-// // Request permission to receive notifications
-// Notification.requestPermission().then((permission) => {
-//   if (permission === 'granted') {
-//     console.log('Notification permission granted.');
+// Request permission to receive notifications
+Notification.requestPermission().then((permission) => {
+  if (permission === 'granted') {
+    console.log('Notification permission granted.');
     
-//     // Obtain the FCM registration token
-//     const messaging = firebase.messaging();
-//     messaging.getToken().then((token) => {
-//       console.log(`FCM registration token: ${token}`);
-//       // Send the token to your server to associate it with the user
+    // Obtain the FCM registration token
+    const messaging = firebase.messaging();
+    messaging.getToken().then((token) => {
+      console.log(`FCM registration token: ${token}`);
+      // Send the token to your server to associate it with the user
+      const url = '/test';
+      const data = { token: token };
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        console.log('Response received:', response);
+      })
+      .catch(error => {
+        console.error(`Failed to send token to server: ${error}`);
+      });
+    }).catch((error) => {
+      console.error(`Failed to obtain FCM registration token: ${error}`);
+    });
 
-//       tokenFCM = token;
-//       console.log('tokenFCM', tokenFCM)
-//     }).catch((error) => {
-//       console.error(`Failed to obtain FCM registration token: ${error}`);
-//     });
-
-//     // Handle token refreshes
-//     messaging.onTokenRefresh(() => {
-//       messaging.getToken().then((token) => {
-//         console.log(`FCM registration token (refreshed): ${token}`);
-//         // Send the refreshed token to your server to update the user's token
-//       }).catch((error) => {
-//         console.error(`Failed to obtain refreshed FCM registration token: ${error}`);
-//       });
-//     });
-//   } else {
-//     console.log('Notification permission denied.');
-//   }
-// });
-
-function requestFCMPermission() {
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      console.log('Notification permission granted.');
-      
-      // Obtain the FCM registration token
-      const messaging = firebase.messaging();
+    // Handle token refreshes
+    messaging.onTokenRefresh(() => {
       messaging.getToken().then((token) => {
-        console.log(`FCM registration token: ${token}`);
-        // Send the token to your server to associate it with the user
+        console.log(`FCM registration token (refreshed): ${token}`);
+        // Send the refreshed token to your server to update the user's token
       }).catch((error) => {
-        console.error(`Failed to obtain FCM registration token: ${error}`);
+        console.error(`Failed to obtain refreshed FCM registration token: ${error}`);
       });
+    });
+  } else {
+    console.log('Notification permission denied.');
+  }
+});
 
-      // Handle token refreshes
-      messaging.onTokenRefresh(() => {
-        messaging.getToken().then((token) => {
-          console.log(`FCM registration token (refreshed): ${token}`);
-          // Send the refreshed token to your server to update the user's token
-        }).catch((error) => {
-          console.error(`Failed to obtain refreshed FCM registration token: ${error}`);
-        });
-      });
-    } else {
-      console.log('Notification permission denied.');
-    }
-  });
-}
+// function requestFCMPermission() {
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === 'granted') {
+//       console.log('Notification permission granted.');
+      
+//       // Obtain the FCM registration token
+//       const messaging = firebase.messaging();
+//       messaging.getToken().then((token) => {
+//         console.log(`FCM registration token: ${token}`);
+//         // Send the token to your server to associate it with the user
+//       }).catch((error) => {
+//         console.error(`Failed to obtain FCM registration token: ${error}`);
+//       });
+
+//       // Handle token refreshes
+//       messaging.onTokenRefresh(() => {
+//         messaging.getToken().then((token) => {
+//           console.log(`FCM registration token (refreshed): ${token}`);
+//           // Send the refreshed token to your server to update the user's token
+//         }).catch((error) => {
+//           console.error(`Failed to obtain refreshed FCM registration token: ${error}`);
+//         });
+//       });
+//     } else {
+//       console.log('Notification permission denied.');
+//     }
+//   });
+// }
 
 
 

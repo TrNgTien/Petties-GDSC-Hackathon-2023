@@ -18,15 +18,26 @@ const PORT = process.env.PORT || config.port;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(
-  cors({
-    origin: [`http://localhost:3333`, `http://localhost:3000`],
-  })
-);
+app.use(cors({
+  origin: [`http://localhost:3333`, `http://localhost:3000`],
+}));
 
 routes(app);
 app.get("/", (req, res) => {
   res.send("<h1>RESTful called successfully!</h1>");
+});
+
+app.post("/test", (req, res) => {
+  const token = req.body.token;
+  console.log('Received token:', token);
+
+  if (socket) {
+    console.log('Assigning Socket.IO connection to token:', token);
+    // Assign the Socket.IO connection to the token
+    socket.token = token;
+  } else {
+    console.error(`Socket.IO connection not found for token: ${token}`);
+  }
 });
 
 //----------------------------------------------------------------//
@@ -43,7 +54,9 @@ var FCM = new fcm('./serviceAccountKey.json');
 // var serverKey = 'AAAA3UlsK3Q:APA91bEQW7OTGIngsgqpJVqOGl-takQfQv40CBdfxeNhsqH6xc1W7KbPYTcL6uohS8F4m_gfv5DSh7QC8ix7JNRbTh9w2sSrJifXKn8HAOj-cstyRFQD7eAEkeKVFw8cslVG-qnKzNql'; //put your server key here
 // var fcm = new FCM(serverKey);
 
-const { getAllUsers, formatMessage, userJoin, getCurrentUser, userLeave } = require('./user')
+const { getAllUsers, formatMessage, userJoin, getCurrentUser, userLeave } = require('./user');
+const { route } = require("./src/routes/UserRoute.js");
+const ChatHandler = require("./src/controllers/ChatHandler.js");
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ userName, room }) => {
@@ -67,7 +80,7 @@ io.on("connection", (socket) => {
     const clients = socket.adapter.rooms.get(room);
     if (clients) {
       clients.forEach((client) => { // Send an FCM notification to each client in the room
-        console.log('client',  client)
+        console.log('client', client)
         if (client === sender) { // Exclude the sender from the notification recipients
           // const payload = {
           //   notification: {
@@ -92,13 +105,13 @@ io.on("connection", (socket) => {
                 title: 'Title of your push notification',
                 body: 'Body of your push notification',
               },
-              data: {  
+              data: {
                 message: data.message,
                 sender: sender,
               },
-              token: "BKCOoxr2vAeRq2PSQv94Ral3-W7u6B9PSx-zYsaxZpzf5zwE4zB9NzypOuLozjDFd6isAREJgfj-UVr_4Jxmt0o"
+              token: "",
             }
-        
+
             FCM.send(message, function (err, response) {
               if (err) {
                 console.log("Something has gone wrong!");
@@ -128,7 +141,7 @@ io.on("connection", (socket) => {
     //       sender: sender,
     //     },
     //   }
-  
+
     //   fcm.send(message, function (err, response) {
     //     if (err) {
     //       console.log("Something has gone wrong!");
