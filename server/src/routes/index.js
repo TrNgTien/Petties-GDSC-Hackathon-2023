@@ -1,12 +1,12 @@
-// const socialFeedRoute = require("./SocialFeedRoute.js");
 const userRoute = require("./UserRoute");
-// const profileRoute = require("./ProfileRoute");
+const authRoute = require("./AuthRoute");
+const socialFeedRoute = require("./SocialFeedRoute.js");
 // const friendRoute = require("./FriendRoute");
-const route = require("../constant/ConstantRoutes");
+
 function routes(app) {
   app.use('/user', userRoute);
-  // app.use(route.POST, socialFeedRoute);
-  // app.use(route.AUTH, userRoute);
+  app.use('/auth', authRoute);
+  app.use('/post', socialFeedRoute);
   // app.use(route.FRIEND, friendRoute);
 }
 module.exports = routes;
