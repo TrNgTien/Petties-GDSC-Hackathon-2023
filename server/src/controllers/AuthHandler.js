@@ -6,7 +6,7 @@ const db = require("../database/firebase-connection")
 module.exports = {
   register: async (req, res) => {
     try {
-      let { email, password } = req.body;
+      let { email, password, role } = req.body;
 
       if (!email || typeof email !== "string") {
         return res.status(400).json({
@@ -25,8 +25,9 @@ module.exports = {
       }
       let hashedPassword = await bcrypt.hashSync(password, saltRounds);
 
-      const checkEmail = await db.collection("users").where("email", "==", email).get();
-      if (checkEmail.empty) {
+      const checkEmail = await db.collection("users").where("email", "==", email);
+      const check = await checkEmail.get();
+      if (!check.empty) {
         return res.status(400).json({
           message: "Email already existed",
         });
@@ -40,6 +41,7 @@ module.exports = {
         description: "",
         userAvatar: "https://cdn-icons-png.flaticon.com/512/6386/6386976.png",
         review: 0,
+        role: role,
         pets: [],
       };
       await db.collection("users").doc(userID).set(objUser);
