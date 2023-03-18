@@ -1,4 +1,4 @@
-import 'package:mobile/screens/main_menu/MainMenu.dart';
+import 'package:mobile/screens/home_screen/home_screen.dart';
 import 'package:mobile/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/ranking_screen/ranking_screen.dart';
@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int selectedIndex = 0;
   List<Widget> widgetOptions = [
-    const MainMenu(),
+    const HomeScreen(),
     const RankingScreen(),
     const ProfileScreen()
   ];

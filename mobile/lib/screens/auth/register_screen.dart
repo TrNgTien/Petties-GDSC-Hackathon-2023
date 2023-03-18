@@ -1,142 +1,238 @@
+import 'dart:convert' show json;
+import 'package:mobile/screens/auth/register_screen.dart';
+import 'package:mobile/utils/helper.dart';
+import 'package:mobile/widget/logo_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:im_stepper/stepper.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile/constants/color.dart';
 import 'package:mobile/main.dart';
-import 'package:mobile/widget/logo_app.dart';
 import "package:mobile/constants/icons.dart";
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  int activeStep = 0; // Initial step set to 0.
+  bool _obscureText = true;
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  // OPTIONAL: can be set directly.
-  int dotCount = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: primaryBackground,
-          automaticallyImplyLeading: false,
         ),
         body: SafeArea(
             child: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  DotStepper(
-                    // direction: Axis.vertical,
-                    dotCount: dotCount,
-                    dotRadius: 12,
-
-                    /// THIS MUST BE SET. SEE HOW IT IS CHANGED IN NEXT/PREVIOUS BUTTONS AND JUMP BUTTONS.
-                    activeStep: activeStep,
-                    shape: Shape.stadium,
-                    spacing: 10,
-                    indicator: Indicator.shift,
-
-                    /// TAPPING WILL NOT FUNCTION PROPERLY WITHOUT THIS PIECE OF CODE.
-                    onDotTapped: (tappedDotIndex) {
-                      setState(() {
-                        activeStep = tappedDotIndex;
-                      });
-                    },
-
-                    // DOT-STEPPER DECORATIONS
-                    fixedDotDecoration: const FixedDotDecoration(
-                      color: grayColor,
-                    ),
-
-                    indicatorDecoration: const IndicatorDecoration(
-                      // style: PaintingStyle.stroke,
-                      // strokeWidth: 8,
-                      color: primaryColor,
-                    ),
-                    lineConnectorDecoration: const LineConnectorDecoration(
-                      color: Colors.red,
-                      strokeWidth: 10,
+          child: Column(children: [
+            const LogoApp(),
+            Container(
+                margin: const EdgeInsets.only(top: 65),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text("Welcome back!",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          )),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                            "Enter your information to sign in with Petties",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: grayColor,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      )
+                    ])),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: widthScreen(context, 0.9),
+                    child: const TextField(
+                      decoration: InputDecoration(
+                          fillColor: backgroundInput,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            borderSide:
+                                BorderSide(width: 2, color: primaryColor),
+                          ),
+                          labelText: 'Email',
+                          hintText: "Your email address"),
                     ),
                   ),
-
-                  // Next and Previous buttons.
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [previousButton(), nextButton()],
-                  ),
-                  const Text("What’s your email?",
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      )),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                        "Enter the email address you’d like to use to sign in to Petties",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: grayColor,
-                          fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: SizedBox(
+                        width: widthScreen(context, 0.9),
+                        child: TextField(
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                            fillColor: backgroundInput,
+                            filled: true,
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              borderSide:
+                                  BorderSide(width: 2, color: primaryColor),
+                            ),
+                            labelText: 'Password',
+                            hintText: "Your password",
+                            suffixIcon: IconButton(
+                              icon: _obscureText
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                            ),
+                          ),
                         )),
                   )
-                ]),
-              ]),
+                ],
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don’t have an account?",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: darkTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const RegisterScreen(),
+                              fullscreenDialog: true));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Text(
+                            "Sign Up?",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: primaryColor40,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ))
+                  ],
+                )),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => const MyHomePage(
+                                  title: "Pet Sitters",
+                                ),
+                            fullscreenDialog: true));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(color: cyanColorBtn, spreadRadius: 10),
+                          ],
+                        ),
+                        height: 40,
+                        width: widthScreen(context, 0.85),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Sign up",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => const MyHomePage(
+                                  title: "Petties",
+                                ),
+                            fullscreenDialog: true));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.transparent,
+                          boxShadow: const [
+                            BoxShadow(color: grayColor50, spreadRadius: 10),
+                          ],
+                        ),
+                        height: 40,
+                        width: widthScreen(context, 0.85),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                googleIcon,
+                                height: 30,
+                                width: 30,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                "Sign up with Google",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ]),
+                      )),
+                )
+              ],
+            ),
+          ]),
         )));
-  }
-
-  /// Generates jump steps for dotCount number of steps, and returns them in a row.
-  Row steps() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(dotCount, (index) {
-        return ElevatedButton(
-          child: Text('${index + 1}'),
-          onPressed: () {
-            setState(() {
-              activeStep = index;
-            });
-          },
-        );
-      }),
-    );
-  }
-
-  /// Returns the next button widget.
-  Widget nextButton() {
-    return ElevatedButton(
-      child: Text('Next'),
-      onPressed: () {
-        /// ACTIVE STEP MUST BE CHECKED FOR (dotCount - 1) AND NOT FOR dotCount To PREVENT Overflow ERROR.
-        if (activeStep < dotCount - 1) {
-          setState(() {
-            activeStep++;
-          });
-        }
-      },
-    );
-  }
-
-  /// Returns the previous button widget.
-  Widget previousButton() {
-    return ElevatedButton(
-      child: Text('Prev'),
-      onPressed: () {
-        // activeStep MUST BE GREATER THAN 0 TO PREVENT OVERFLOW.
-        if (activeStep > 0) {
-          setState(() {
-            activeStep--;
-          });
-        }
-      },
-    );
   }
 }

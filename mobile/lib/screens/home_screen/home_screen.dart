@@ -1,14 +1,14 @@
 import 'package:mobile/constants/color.dart';
 import 'package:flutter/material.dart';
 
-class MainMenu extends StatefulWidget {
-  const MainMenu({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainMenu> createState() => _MainMenuState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainMenuState extends State<MainMenu> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
