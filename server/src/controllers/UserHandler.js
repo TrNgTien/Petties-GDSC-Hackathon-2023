@@ -6,6 +6,14 @@ const { uploadS3, deleteS3 } = require("../middleware/s3Services");
 const { v4: uuidv4 } = require("uuid");
 const Post = require("../model/Post");
 
+const admin = require('firebase-admin');
+const serviceAccount = require("../../serviceAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore()
+
 module.exports = {
   register: async (req, res) => {
     try {
@@ -114,9 +122,10 @@ module.exports = {
   },
   getAllUser: async (req, res) => {
     try {
-      let allUser = await User.find();
+      const users = await db.collection('users').get();
+      console.log(users);
       return res.status(200).json({
-        data: allUser,
+        data: users,
       });
     } catch (error) {
       console.log(error);

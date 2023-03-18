@@ -1,7 +1,10 @@
 {
+  "name": "petties-gdsc-2023",
+  "version": "0.1.0",
+  "description": "petties-gdsc-2023petties-gdsc-2023",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "pm2 start server.js"
+    "start": "start server.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.100.0",
@@ -12,9 +15,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "fcm-node": "^1.6.1",
+    "fcm-notification": "^2.0.0",
+    "firebase-admin": "^11.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
-    "pm2": "^5.2.0",
     "socket.io": "^4.5.1",
     "uuid": "^8.3.2"
   },
