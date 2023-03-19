@@ -225,6 +225,34 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("getMessage", formatMessage('Admin', `${user.userName} has left the chat`))
     }
   });
+
+  // socket.on("addUser", (userID) => {
+  //   addUser(userID, socket.id);
+  //   io.emit("getUser", roomMembers);
+  // });
+
+  // socket.on("sendMessage", ({ senderID, receiverID, text }) => {
+  //   // const user = getUser(receiverID);
+  //   if (user) {
+  //     io.to(user.socketID).emit("getMessage", {
+  //       senderID,
+  //       text,
+  //     });
+  //   }
+  // });
+
+
+  // socket.on("sendNotification", ({ senderID, receiverID, text }) => {
+  //   const user = getUser(receiverID);
+  //   if (user) {
+  //     io.to(user.socketID).emit("getNotification", {
+  //       senderID,
+  //       text,
+  //     });
+  //   }
+  // });
+
+
 });
 
 server.listen(PORT, () => {
