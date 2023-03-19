@@ -1,4 +1,4 @@
-const db = require("../database/firebase-connection")
+const db = require("../database/firestore-connection")
 
 module.exports = {
   getAllUser: async (req, res) => {
@@ -22,7 +22,7 @@ module.exports = {
 
   getPetowners: async (req, res) => {
     try {
-      if (req.query.role == "petsitter") {
+      if (req.user.role == "petsitter") {
         const userSnapshot = await db.collection("users").where("role", "==", "petowner").get();
         let users = [];
         userSnapshot.forEach((x) =>
@@ -42,49 +42,7 @@ module.exports = {
   },
   getPetowner: async (req, res) => {
     try {
-      if (req.query.role == "petsitter") {
-        let userID = req.params.userID;
-        const userRef = await db.collection("users").doc(userID);
-        const result = await userRef.get();
-        if (!result.exists) {
-          return res.status(400).json({
-            message: "User not found",
-          });
-        } else {
-          return res.status(200).json({
-            data: result.data(),
-          });
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Internal server error");
-    }
-  },
-
-  getPetsitters: async (req, res) => {
-    try {
-      if (req.query.role == "petowner") {
-        const userSnapshot = await db.collection("users").where("role", "==", "petsitter").get();
-        let users = [];
-        userSnapshot.forEach((x) =>
-          users.push({
-            ...x.data(),
-          })
-        );
-        return res.status(200).json({
-          total: users.length,
-          data: users,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Internal server error");
-    }
-  },
-  getPetsitter: async (req, res) => {
-    try {
-      if (req.query.role == "petowner") {
+      if (req.user.role == "petsitter") {
         let userID = req.params.userID;
         const userRef = await db.collection("users").doc(userID);
         const result = await userRef.get();
@@ -106,20 +64,8 @@ module.exports = {
 
   getReviews: async (req, res) => {
     try {
-      if (req.query.role == "petsitter") {
+      if (req.user.role == "petsitter") {
         const reviewSnapshot = await db.collection("users").where("role", "==", "petowner").orderBy("review", "desc").get();
-        let reviews = [];
-        reviewSnapshot.forEach((x) =>
-          reviews.push({
-            ...x.data(),
-          })
-        );
-        return res.status(200).json({
-          total: reviews.length,
-          data: reviews,
-        });
-      } else {
-        const reviewSnapshot = await db.collection("users").where("role", "==", "petsitter").orderBy("review", "desc").get();
         let reviews = [];
         reviewSnapshot.forEach((x) =>
           reviews.push({
