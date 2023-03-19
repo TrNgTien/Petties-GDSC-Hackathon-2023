@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/constants/color.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -17,11 +18,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text("My Profile"),
+        elevation: 0,
+        backgroundColor: backgroundAppBar,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: Colors.black,
+          color: primaryColor,
           onPressed: () => Navigator.pop(context),
+        ),
+        titleTextStyle: const TextStyle(
+          color: appbarColor,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
         ),
       ),
       body: Padding(

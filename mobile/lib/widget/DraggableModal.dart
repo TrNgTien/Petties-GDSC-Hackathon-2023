@@ -19,8 +19,8 @@ class _DraggableSheetState extends State<DraggableSheet>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
     _animation = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.0))
         .animate(_controller);
   }

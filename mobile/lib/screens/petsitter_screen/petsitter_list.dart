@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mobile/constants/color.dart';
 import "package:mobile/constants/mock_data.dart";
-import 'package:mobile/screens/petsitter_screen/profile_detail.dart';
+import 'package:mobile/screens/petsitter_detail/profile_detail.dart';
 import 'package:mobile/utils/helper.dart';
 import 'package:mobile/widget/pet_wrap.dart';
 import 'package:mobile/widget/rating.dart';
@@ -69,7 +69,10 @@ Widget petSitterItems(dynamic userData, int indexItem, BuildContext context) {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Rating(indexItem: indexItem),
+                    Rating(
+                      rating: userData[indexItem]['rating'],
+                      fontSizeOverride: 12,
+                    ),
                     const Text(
                       "1.5km",
                       style: TextStyle(

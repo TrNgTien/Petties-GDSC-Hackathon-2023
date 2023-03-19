@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile/constants/icons.dart';
-import 'package:mobile/constants/mock_data.dart';
 
 class Rating extends StatelessWidget {
-  const Rating({super.key, required this.indexItem});
-  final indexItem;
+  const Rating(
+      {super.key, required this.rating, required this.fontSizeOverride});
+  final int rating;
+  final double fontSizeOverride;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,11 @@ class Rating extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            '${userData[indexItem]['reviews']}',
-            style: const TextStyle(
-                color: Colors.black, fontSize: 12, fontWeight: FontWeight.w700),
+            "$rating",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: fontSizeOverride,
+                fontWeight: FontWeight.w700),
           ),
           const SizedBox(
             width: 2,

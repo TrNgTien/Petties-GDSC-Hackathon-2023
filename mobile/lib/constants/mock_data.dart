@@ -1,7 +1,8 @@
 const dynamic userData = [
   {
     "userName": "Kristin Watson",
-    "reviews": 4.5,
+    "rating": 4,
+    "reviews": 65,
     "pets": ["Cat", "Dog"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
@@ -10,7 +11,8 @@ const dynamic userData = [
   },
   {
     "userName": "Jenny Wilson",
-    "reviews": 2,
+    "rating": 2,
+    "reviews": 64,
     "pets": ["Tiger", "hamster", "cat"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
@@ -19,7 +21,8 @@ const dynamic userData = [
   },
   {
     "userName": "Leslie Alexander",
-    "reviews": 5,
+    "rating": 5,
+    "reviews": 64,
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
     "userAvatar":
@@ -28,7 +31,8 @@ const dynamic userData = [
   },
   {
     "userName": "Haylie Septimus",
-    "reviews": 3,
+    "rating": 3,
+    "reviews": 64,
     "pets": ["Rabbit", "hamster"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
@@ -37,7 +41,8 @@ const dynamic userData = [
   },
   {
     "userName": "Angel Westervelt",
-    "reviews": 3.5,
+    "rating": 3,
+    "reviews": 64,
     "pets": ["Rabbit", "hamster"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
@@ -46,7 +51,8 @@ const dynamic userData = [
   },
   {
     "userName": "Maria Aminoff",
-    "reviews": 5,
+    "rating": 5,
+    "reviews": 64,
     "pets": ["Rabbit", "Dog"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
@@ -55,7 +61,8 @@ const dynamic userData = [
   },
   {
     "userName": "Leslie Alexander",
-    "reviews": 1,
+    "rating": 1,
+    "reviews": 64,
     "pets": ["Rabbit", "Hamster", "Cat"],
     "description":
         "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",

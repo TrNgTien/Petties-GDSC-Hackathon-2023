@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobile/constants/color.dart';
 import 'package:mobile/constants/icons.dart';
+import 'package:mobile/constants/images.dart';
 import 'package:mobile/screens/petsitter_screen/petsitter_list.dart';
+import 'package:mobile/widget/DraggableModal.dart';
 
 class PetSitterScreen extends StatefulWidget {
   const PetSitterScreen({super.key});
@@ -20,14 +22,14 @@ class _PetSitterScreenState extends State<PetSitterScreen> {
         appBar: AppBar(
           title: const Text("Pet Sitters"),
           elevation: 0,
-          backgroundColor: primaryBackground,
+          backgroundColor: backgroundAppBar,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            color: Colors.black,
+            color: primaryColor,
             onPressed: () => Navigator.pop(context),
           ),
           titleTextStyle: const TextStyle(
-            color: Colors.black,
+            color: appbarColor,
             fontSize: 20,
             fontWeight: FontWeight.w700,
           ),
@@ -35,12 +37,24 @@ class _PetSitterScreenState extends State<PetSitterScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 15),
+              padding: const EdgeInsets.only(bottom: 10, left: 15, top: 10),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(filterIcon),
+                    InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => DraggableSheet(
+                                child: Image.asset(
+                              filterImg,
+                              fit: BoxFit.fill,
+                            )),
+                          );
+                        },
+                        child: SvgPicture.asset(filterIcon)),
                     const SizedBox(
                       width: 10,
                     ),

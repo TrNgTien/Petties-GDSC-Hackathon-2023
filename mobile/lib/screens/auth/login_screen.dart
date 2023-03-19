@@ -1,7 +1,7 @@
 import 'dart:convert' show json;
+import 'package:mobile/constants/images.dart';
 import 'package:mobile/screens/auth/register_screen.dart';
 import 'package:mobile/utils/helper.dart';
-import 'package:mobile/widget/logo_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  bool _usernameFocus = false;
+  bool _passwordFocus = false;
   @override
   void initState() {
     super.initState();
@@ -32,19 +34,31 @@ class _LoginScreenState extends State<LoginScreen> {
         body: SafeArea(
             child: Center(
           child: Column(children: [
-            const LogoApp(),
+            Visibility(
+              visible: !_usernameFocus && !_passwordFocus,
+              child: SvgPicture.asset(
+                welcomeImg,
+                height: 200,
+                width: 200,
+              ),
+            ),
             Container(
-                margin: const EdgeInsets.only(top: 65),
+                margin: !_usernameFocus && !_passwordFocus
+                    ? const EdgeInsets.only(top: 65)
+                    : const EdgeInsets.only(top: 30),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Welcome back!",
-                          style: TextStyle(
+                    children: [
+                      Text(
+                          !_usernameFocus && !_passwordFocus
+                              ? "Welcome back!"
+                              : "Sign in",
+                          style: const TextStyle(
                             fontSize: 30,
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                           )),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                             "Enter your information to sign in with Petties",
@@ -61,8 +75,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   SizedBox(
                     width: widthScreen(context, 0.9),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      onTap: () {
+                        setState(() {
+                          _usernameFocus = true;
+                          _passwordFocus = false;
+                        });
+                      },
+                      decoration: const InputDecoration(
                           fillColor: backgroundInput,
                           filled: true,
                           enabledBorder: OutlineInputBorder(
@@ -83,6 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: SizedBox(
                         width: widthScreen(context, 0.9),
                         child: TextField(
+                          onTap: () {
+                            setState(() {
+                              _usernameFocus = false;
+                              _passwordFocus = true;
+                            });
+                          },
                           obscureText: _obscureText,
                           decoration: InputDecoration(
                             fillColor: backgroundInput,
@@ -132,17 +158,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          MaterialPageRoute(
+                          Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   const RegisterScreen(),
-                              fullscreenDialog: true);
+                              fullscreenDialog: true));
                         },
                         child: const Padding(
                           padding: EdgeInsets.only(left: 10.0),
                           child: Text(
                             "Sign Up?",
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 15,
                               color: primaryColor40,
                               fontWeight: FontWeight.w700,
                             ),

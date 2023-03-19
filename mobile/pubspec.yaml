@@ -42,6 +42,7 @@ dependencies:
   im_stepper: ^1.0.1+1
   socket_io_client: ^2.0.1
   syncfusion_flutter_datepicker: ^20.4.54
+  flutter_toggle_tab: ^1.2.0
 
 dev_dependencies:
   flutter_test:

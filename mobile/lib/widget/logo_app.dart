@@ -8,7 +8,7 @@ class LogoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      logoImg,
+      welcomeImg,
       height: 200,
       width: 200,
     );

@@ -13,3 +13,6 @@ String mathIcon = "lib/assets/icons/math_ic.svg";
 String memoryIcon = "lib/assets/icons/memory_ic.svg";
 String starIcon = "lib/assets/icons/star_ic.svg";
 String filterIcon = "lib/assets/icons/filter_ic.svg";
+String eyeIcon = "lib/assets/icons/eye.svg";
+String heartIcon = "lib/assets/icons/heart_ic.svg";
+String singleHeartIcon = "lib/assets/icons/heart.svg";

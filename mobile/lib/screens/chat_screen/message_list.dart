@@ -15,26 +15,32 @@ class _MessageListState extends State<MessageList> {
   final List<Map<String, String>> messageList = [
     {
       "userName": "Tien",
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User'
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b'
     },
     {
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User',
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b',
       "userName": "Tien1",
     },
     {
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User',
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b',
       "userName": "Tien2",
     },
     {
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User',
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b',
       "userName": "Tienyet?"
     },
     {
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User',
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b',
       "userName": "Tien212."
     },
     {
-      "avatar": 'https://via.placeholder.com/150x150.png?text=User',
+      "userAvatar":
+          'https://firebasestorage.googleapis.com/v0/b/gdsc-hackathon-a10b5.appspot.com/o/images%2Ff8dc3e61-49f0-4f29-9a45-be0203d26c69.jpg?alt=media&token=9ebbd78a-0a30-41fc-884d-d37d53d8646b',
       "userName": "Tien121"
     },
   ];
@@ -68,24 +74,28 @@ class _MessageListState extends State<MessageList> {
         appBar: AppBar(
           title: const Text(
             "Messages",
-            style: TextStyle(color: Colors.black),
+          ),
+          elevation: 0,
+          backgroundColor: backgroundAppBar,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: primaryColor,
+            onPressed: () => Navigator.pop(context),
+          ),
+          titleTextStyle: const TextStyle(
+            color: appbarColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.create),
-              color: Colors.black,
+              color: primaryColor,
               onPressed: () {
                 // Do something when the button is pressed
               },
             ),
           ],
-          backgroundColor: primaryBackground,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            color: Colors.black,
-            onPressed: () => Navigator.pop(context),
-          ),
         ),
         body: Column(
           children: [
@@ -120,7 +130,7 @@ class _MessageListState extends State<MessageList> {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage:
-                          NetworkImage(messageList[index]["avatar"]!),
+                          NetworkImage(messageList[index]["userAvatar"]!),
                     ),
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
