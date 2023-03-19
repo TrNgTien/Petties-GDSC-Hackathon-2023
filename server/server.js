@@ -19,9 +19,7 @@ const PORT = process.env.PORT || config.port;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(cors({
-  origin: [`http://localhost:3333`, `http://localhost:3000`],
-}));
+app.use(cors());
 
 routes(app);
 app.get("/", (req, res) => {
