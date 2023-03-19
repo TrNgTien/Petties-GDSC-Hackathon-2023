@@ -75,13 +75,9 @@ class _MessageListState extends State<MessageList> {
           title: const Text(
             "Messages",
           ),
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: backgroundAppBar,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            color: primaryColor,
-            onPressed: () => Navigator.pop(context),
-          ),
           titleTextStyle: const TextStyle(
             color: appbarColor,
             fontSize: 20,

@@ -1,10 +1,10 @@
 {
   "name": "petties-gdsc-2023",
   "version": "0.1.0",
-  "description": "petties-gdsc-2023petties-gdsc-2023",
+  "description": "petties-gdsc-2023",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "start server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -21,11 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Text("My Profile"),
         elevation: 0,
         backgroundColor: backgroundAppBar,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: primaryColor,
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         titleTextStyle: const TextStyle(
           color: appbarColor,
           fontSize: 20,

@@ -23,11 +23,7 @@ class _PetSitterScreenState extends State<PetSitterScreen> {
           title: const Text("Pet Sitters"),
           elevation: 0,
           backgroundColor: backgroundAppBar,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            color: primaryColor,
-            onPressed: () => Navigator.pop(context),
-          ),
+          automaticallyImplyLeading: false,
           titleTextStyle: const TextStyle(
             color: appbarColor,
             fontSize: 20,
