@@ -18,17 +18,5 @@ const Authentication = (req, res, next) => {
 		return res.status(401).json({ error: "Unauthorized" });
 	}
 };
-// const generateAccessToken = (user, role) => {
-// 	return jwt.sign({ id: user, role: role }, process.env.JWT_KEY, {
-// 		expiresIn: "1h",
-// 	  });
-// };
-// const generateRefreshToken = (user, role) => {
-// 	return jwt.sign({ id: user, role: role }, process.env.REFRESH_JWT_KEY, {
-// 	  expiresIn: "1d",
-// 	});
-//   };
 
-
-// module.exports = { Authentication, generateAccessToken, generateRefreshToken };
 module.exports = { Authentication };
