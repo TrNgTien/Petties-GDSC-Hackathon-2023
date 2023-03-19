@@ -33,7 +33,6 @@
 const express = require("express");
 const router = express.Router();
 const postHandler = require("../controllers/PostHandler");
-const { Authentication } = require("../middleware/Authentication");
 
 /**
  * @swagger
@@ -80,7 +79,7 @@ router.get("/:postID", postHandler.getPostById);
 *        500:
 *         description: Internal server error   
 */
-router.post("/addPost", Authentication, postHandler.addPost);
+router.post("/addPost", postHandler.addPost);
 
 /**
 *  @swagger
@@ -103,7 +102,7 @@ router.post("/addPost", Authentication, postHandler.addPost);
 *        500:
 *         description: Internal server error   
 */
-router.put("/editPost/:postID", Authentication, postHandler.editPost);
+router.put("/editPost/:postID", postHandler.editPost);
 
 /**
 *  @swagger
@@ -126,6 +125,6 @@ router.put("/editPost/:postID", Authentication, postHandler.editPost);
 *        500:
 *         description: Internal server error   
 */
-router.delete("/deletePost/:postID", Authentication, postHandler.deletePost);
+router.delete("/deletePost/:postID", postHandler.deletePost);
 
 module.exports = router;

@@ -50,7 +50,6 @@
 const express = require("express");
 const router = express.Router();
 const userHandler = require("../controllers/UserHandler");
-const { Authentication } = require("../middleware/Authentication");
 const multer = require('multer');
 
 /**
@@ -75,7 +74,7 @@ router.get("/", userHandler.getAllUser);
  *       200:
  *         description: Success
  */
-router.get("/getPetowners", Authentication, userHandler.getPetowners);
+router.get("/getPetowners", userHandler.getPetowners);
 
 /**
  * @swagger
@@ -87,7 +86,7 @@ router.get("/getPetowners", Authentication, userHandler.getPetowners);
  *       200:
  *         description: Success
  */
-router.get("/getPetowner/:userID", Authentication, userHandler.getPetowner);
+router.get("/getPetowner/:userID", userHandler.getPetowner);
 
 /**
  * @swagger
@@ -99,7 +98,7 @@ router.get("/getPetowner/:userID", Authentication, userHandler.getPetowner);
  *       200:
  *         description: Success
  */
-router.get("/getPetsitters", Authentication, userHandler.getPetsitters);
+router.get("/getPetsitters", userHandler.getPetsitters);
 
 /**
  * @swagger
@@ -111,7 +110,7 @@ router.get("/getPetsitters", Authentication, userHandler.getPetsitters);
  *       200:
  *         description: Success
  */
-router.get("/getPetsitter/:userID", Authentication, userHandler.getPetsitter);
+router.get("/getPetsitter/:userID", userHandler.getPetsitter);
 
 /**
  * @swagger
@@ -123,7 +122,7 @@ router.get("/getPetsitter/:userID", Authentication, userHandler.getPetsitter);
  *       200:
  *         description: Success
  */
-router.get("/getReviews", Authentication, userHandler.getReviews);
+router.get("/getReviews", userHandler.getReviews);
 
 /**
  * @swagger
@@ -135,7 +134,7 @@ router.get("/getReviews", Authentication, userHandler.getReviews);
  *       200:
  *         description: Success
  */
-router.get("/filter", Authentication, userHandler.filterUser);
+router.get("/filter", userHandler.filterUser);
 
 const upload = multer({
     storage: multer.memoryStorage()
@@ -174,7 +173,7 @@ router.post('/uploadAvatar/:userID', upload.single('filename'), userHandler.uplo
 *        500:
 *         description: Internal server error      
 */
-router.get("/:userID", Authentication, userHandler.getUserInformation);
+router.get("/:userID", userHandler.getUserInformation);
 
 /**
 *  @swagger
@@ -197,7 +196,7 @@ router.get("/:userID", Authentication, userHandler.getUserInformation);
 *        500:
 *         description: Internal server error   
 */
-router.put("/editUser/:userID", Authentication, userHandler.updateInformation);
+router.put("/editUser/:userID", userHandler.updateInformation);
 
 /**
 *  @swagger
@@ -220,6 +219,6 @@ router.put("/editUser/:userID", Authentication, userHandler.updateInformation);
 *        500:
 *         description: Internal server error   
 */
-router.delete("/deleteUser/:userID", Authentication, userHandler.deleteUser);
+router.delete("/deleteUser/:userID", userHandler.deleteUser);
 
 module.exports = router;
