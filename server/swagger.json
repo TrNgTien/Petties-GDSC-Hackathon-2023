@@ -1,0 +1,226 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Petties-GDSC-Hackathon-2023",
+    "description": "Petties-GDSC-Hackathon-2023-API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "linkedin.com/in/trngtien"
+    }
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:8080",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Authentication operations"
+    },
+    {
+      "name": "Users",
+      "description": "Users operations"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register Registration",
+        "description": "Register Registration",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Enter your email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "Enter your password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Register Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "password"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "Role",
+                  "enum": [
+                    "petsitter"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login Registration",
+        "description": "Login Registration",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Enter your email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "passwordInput",
+            "in": "formData",
+            "description": "Enter your password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email"
+                },
+                "passwordInput": {
+                  "type": "string",
+                  "description": "passwordInput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "Get all users successfully"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/:userID": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "type": "string"
+          }
+        ],
+        "summary": "Get user by ID",
+        "responses": {
+          "200": {
+            "description": "Get user by ID"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/getPetowners": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all petowners",
+        "responses": {
+          "200": {
+            "description": "Get all petowners"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/getPetowner/:userID": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get petowners with ID",
+        "responses": {
+          "200": {
+            "description": "Get petowners with ID"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/getReviews": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get reviews of user descendent",
+        "responses": {
+          "200": {
+            "description": "Get reviews of user desce"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,8 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 dotenv.config();
 const admin = require('firebase-admin');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 //Detect mode
 const mode = process.env.NODE_ENV || "development";
@@ -27,9 +29,34 @@ app.get("/", (req, res) => {
   res.send("<h1>RESTful called successfully!</h1>");
 });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.post("/test", (req, res) => {
   const token = req.body.token;
   console.log('Received token:', token);
+
+  try {
+    let message = {
+      notification: {
+        title: 'Title of your push notification',
+        body: 'Body of your push notification',
+      },
+      data: {
+        message: 'This is a Firebase Cloud Messaging Topic Message!',
+      },
+      token: token,
+    }
+
+    FCM.send(message, function (err, response) {
+      if (err) {
+        console.log("Something has gone wrong!");
+      } else {
+        console.log("Successfully sent with response: ", response);
+      }
+    });
+  } catch (error) {
+    console.log(error)
+  }
 
   if (socket) {
     console.log('Assigning Socket.IO connection to token:', token);
@@ -55,8 +82,6 @@ var FCM = new fcm('./serviceAccountKey.json');
 // var fcm = new FCM(serverKey);
 
 const { getAllUsers, formatMessage, userJoin, getCurrentUser, userLeave } = require('./user');
-const { route } = require("./src/routes/UserRoute.js");
-const ChatHandler = require("./src/controllers/ChatHandler.js");
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ userName, room }) => {
