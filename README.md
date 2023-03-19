@@ -1,4 +1,4 @@
-# mobile
+# flutter mobile app
 
 You can run the mobile app on your phone or on an emulator. The app is built using Flutter, so you will need to install the Flutter SDK. You can find instructions for doing so [here](https://flutter.dev/docs/get-started/install).
 
@@ -23,6 +23,6 @@ npm start
 ```
 If you familiar with Docker, you can use the Dockerfile:
     
-    ```bash
-        docker run -p 8080:8080 -d nguyenle23/node
-    ```
+```bash
+docker run -p 8080:8080 -d nguyenle23/node
+```
