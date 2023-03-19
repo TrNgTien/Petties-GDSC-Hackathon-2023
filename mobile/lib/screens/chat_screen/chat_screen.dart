@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.delayed(const Duration(milliseconds: 100)).then((_) {
       _focusNode.requestFocus();
     });
-    socket = IO.io('http://localhost:8080');
+    socket = IO.io('http://10.0.2.2:8080');
     socket.on('message', (data) {
       BubbleChat message = BubbleChat(
         message: data,

@@ -1,12 +1,12 @@
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mobile/constants/color.dart';
-import "package:mobile/constants/mock_data.dart";
 import 'package:mobile/screens/petsitter_detail/profile_detail.dart';
 import 'package:mobile/utils/helper.dart';
 import 'package:mobile/widget/pet_wrap.dart';
 import 'package:mobile/widget/rating.dart';
+import 'package:http/http.dart' as http;
 
 class ListBuilder extends StatefulWidget {
   const ListBuilder({
@@ -18,6 +18,27 @@ class ListBuilder extends StatefulWidget {
 }
 
 class _ListBuilderState extends State<ListBuilder> {
+  dynamic userData = [];
+  Future<dynamic> fetchData() async {
+    final response = await http.get(Uri.parse('http://10.0.2.2:8080/user'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData().then((data) {
+      setState(() {
+        userData = data['data'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
