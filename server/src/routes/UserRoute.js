@@ -5,6 +5,48 @@
  *   description: User Hanlder
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - userID
+ *         - email
+ *         - password
+ *         - description
+ *         - review
+ *         - role
+ *         - userAvatar
+ *         - pets
+ *       properties:
+ *         userID:
+ *           type: string
+ *           description: The auto-generated id with UUID
+ *         email:
+ *           type: string
+ *           description: The email of user
+ *         password:
+ *           type: string
+ *           description: The password of user
+ *         description:
+ *           type: boolean
+ *           description: The description of user
+ *         review:
+ *           type: integer
+ *           description: The review of user
+ *         role:
+ *           type: string
+ *           description: The role of user
+ *         userAvatar:
+ *           type: string
+ *           description: The avatar of user
+ *         pets:
+ *           type: array
+ *           description: The pets of user
+ */
+
 const express = require("express");
 const router = express.Router();
 const userHandler = require("../controllers/UserHandler");

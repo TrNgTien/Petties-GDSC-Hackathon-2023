@@ -40,8 +40,20 @@ const options = {
       contact: {
         name: "Tien Tran",
         url: "linkedin.com/in/trngtien",
-      },
+      }
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      }
+    },
+    security: [{
+      bearerAuth: []
+    }],
     servers: [
       {
         url: "http://localhost:8080",

@@ -5,6 +5,31 @@
  *   description: Post Hanlder
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - postID
+ *         - description
+ *         - postAttachments
+ *         - userID
+ *       properties:
+ *         postID:
+ *           type: string
+ *           description: The auto-generated id with UUID
+ *         description:
+ *           type: boolean
+ *           description: The description of post
+ *         postAttachments:
+ *           type: object
+ *           description: The review of user
+ *         userID:
+ *           type: string
+ *           description: The auto-generated id with UUID
+ */
 const express = require("express");
 const router = express.Router();
 const postHandler = require("../controllers/PostHandler");

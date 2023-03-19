@@ -4,19 +4,46 @@
  *   name: Authentication
  *   description: Authentic Hanlder
  */
-
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Auth:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: The email of user
+ *         password:
+ *           type: string
+ *           description: The password of user
+ */
 const express = require("express");
 const router = express.Router();
 const authHandler = require("../controllers/AuthHandler");
 
 /**
 * @swagger
-* /register:
+* /auth/register:
 *   post:
 *     summary: User registration
 *     tags: [Authentication]
 *     requestBody:
-*       required: true
+*      content:
+*       application/json:
+*         schema:
+*          type: object
+*          properties:
+*            email:
+*             type: string
+*            password:
+*             type: string
+*          example:
+*           email: "user@root.com"
+*           password: "root"
 *     description: User registration
 *     content:
 *       application/json:
@@ -37,12 +64,23 @@ router.post("/register", authHandler.register);
 
 /**
 * @swagger
-* /login:
+* /auth/login:
 *   post:
 *     summary: User login
 *     tags: [Authentication]
 *     requestBody:
-*       required: true
+*      content:
+*       application/json:
+*         schema:
+*          type: object
+*          properties:
+*            email:
+*             type: string
+*            passwordInput:
+*             type: string
+*          example:
+*           email: "user@root.com"
+*           password: "root"
 *     description: User login
 *     content:
 *       application/json:
