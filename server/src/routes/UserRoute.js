@@ -10,10 +10,10 @@ router.get("/getPetowner/:userID", Authentication, userHandler.getPetowner);
 
 router.get("/getReviews", Authentication, userHandler.getReviews);
 
-router.get("/filter", userHandler.filterUser);
+router.get("/filter", Authentication, userHandler.filterUser);
 
-router.get("/:userID", userHandler.getUserInformation);
-router.put("/editUser/:userID", userHandler.updateInformation);
-router.delete("/deleteUser/:userID", userHandler.deleteUser);
+router.get("/:userID", Authentication, userHandler.getUserInformation);
+router.put("/editUser/:userID", Authentication, userHandler.updateInformation);
+router.delete("/deleteUser/:userID", Authentication, userHandler.deleteUser);
 
 module.exports = router;

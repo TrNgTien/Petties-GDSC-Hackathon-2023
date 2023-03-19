@@ -85,18 +85,34 @@ module.exports = {
 
   filterUser: async (req, res) => {
     try {
-      let filter = req.query.q;
-      const userSnapshot = await db.collection("users").where("role", "==", filter).get();
-      let users = [];
-      userSnapshot.forEach((x) =>
-        users.push({
-          ...x.data(),
-        })
-      );
-      return res.status(200).json({
-        total: users.length,
-        data: users,
-      });
+      if (req.user.role == "petsitter") {
+        let filter = req.query.q;
+
+        const userSnapshot = await db.collection("users").get();
+        let users = [];
+        userSnapshot.forEach((x) =>
+          users.push({
+            ...x.data(),
+          })
+        );
+        const filterUsersByPet = (users, pet) => {
+          const filteredPetSitters = users.filter((user) => {
+            return user.role === req.user.role && user.pets.includes(pet);
+          });
+          return filteredPetSitters;
+        };
+
+        if (filterUsersByPet(users, filter).length == 0) {
+          return res.status(400).json({
+            message: `No petsitter has owned ${filter}`,
+          });
+        } else {
+          return res.status(200).json({
+            total: filterUsersByPet(users, filter).length,
+            data: filterUsersByPet(users, filter),
+          });
+        }
+      }
     } catch (error) {
       console.log(error);
       return res.status(500).json("Internal server error");
@@ -105,17 +121,19 @@ module.exports = {
 
   getUserInformation: async (req, res) => {
     try {
-      let userID = req.params.userID;
-      const userRef = await db.collection("users").doc(userID);
-      const result = await userRef.get();
-      if (!result.exists) {
-        return res.status(400).json({
-          message: "User not found",
-        });
-      } else {
-        return res.status(200).json({
-          data: result.data(),
-        });
+      if (req.user.role == "petsitter") {
+        const userID = req.user.userID;
+        const userRef = await db.collection("users").doc(userID);
+        const result = await userRef.get();
+        if (!result.exists) {
+          return res.status(400).json({
+            message: "User not found",
+          });
+        } else {
+          return res.status(200).json({
+            data: result.data(),
+          });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -124,27 +142,31 @@ module.exports = {
   },
   updateInformation: async (req, res) => {
     try {
-      let userID = req.params.userID;
-      let infoUpdate = req.body;
+      if (req.user.role == "petsitter") {
+        const userID = req.user.userID;
+        let infoUpdate = req.body;
 
-      const checkEmail = await db.collection("users").where("email", "==", infoUpdate.email).get();
-      if (!checkEmail.empty) {
-        return res.status(400).json({
-          message: "Email already existed",
+        if (infoUpdate.email != undefined) {
+          const checkEmail = await db.collection("users").where("email", "==", infoUpdate.email).get();
+          if (!checkEmail.empty) {
+            return res.status(400).json({
+              message: "Email already existed",
+            });
+          }
+        }
+
+        const userRef = await db.collection("users").doc(userID);
+        const data = await userRef.get();
+        if (!data.exists) {
+          return res.status(400).json({
+            message: "User not found",
+          });
+        }
+        await userRef.update(infoUpdate);
+        return res.status(200).json({
+          message: "Update successfully!",
         });
       }
-
-      const userRef = await db.collection("users").doc(userID);
-      const data = await userRef.get();
-      if (!data.exists) {
-        return res.status(400).json({
-          message: "User not found",
-        });
-      }
-      await userRef.update(infoUpdate);
-      return res.status(200).json({
-        message: "Update successfully!",
-      });
     } catch (error) {
       console.log(error);
       return res.status(500).json("Internal server error");
@@ -152,21 +174,23 @@ module.exports = {
   },
   deleteUser: async (req, res) => {
     try {
-      let userID = req.params.userID;
-      const userRef = await db.collection("users").doc(userID);
-      const data = await userRef.get();
-      if (!data.exists) {
-        return res.status(400).json({
-          message: "User not found",
+      if (req.user.role == "petsitter") {
+        const userID = req.user.userID;
+        const userRef = await db.collection("users").doc(userID);
+        const data = await userRef.get();
+        if (!data.exists) {
+          return res.status(400).json({
+            message: "User not found",
+          });
+        }
+        await userRef.delete();
+        return res.status(200).json({
+          message: "Delete successfully!",
         });
       }
-      const result = await userRef.delete();
-      return res.status(200).json({
-        message: "Delete successfully!",
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Internal server error");
-    }
-  },
-};
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json("Internal server error");
+      }
+    },
+  };
