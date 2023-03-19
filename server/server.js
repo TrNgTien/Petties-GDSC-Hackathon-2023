@@ -1,20 +1,19 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const routes = require("./src/routes/index.js");
 const path = require('path')
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-dotenv.config();
-const admin = require('firebase-admin');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const bodyParser = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
 
 //Detect mode
 const mode = process.env.NODE_ENV || "development";
 const config = require("config").get(mode);
-
 const PORT = process.env.PORT || config.port;
 
 app.use(express.json());
@@ -29,7 +28,34 @@ app.get("/", (req, res) => {
   res.send("<h1>RESTful called successfully!</h1>");
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Petties-GDSC-Hackathon-2023",
+      version: "0.1.0",
+      description:
+        "This is a Petties-GDSC-Hackathon-2023 API documentation.",
+      contact: {
+        name: "Tien Tran",
+        url: "linkedin.com/in/trngtien",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: ["./src/routes/*.js"],
+};
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 app.post("/test", (req, res) => {
   const token = req.body.token;
@@ -187,34 +213,6 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("getMessage", formatMessage('Admin', `${user.userName} has left the chat`))
     }
   });
-
-  // socket.on("addUser", (userID) => {
-  //   addUser(userID, socket.id);
-  //   io.emit("getUser", roomMembers);
-  // });
-
-  // socket.on("sendMessage", ({ senderID, receiverID, text }) => {
-  //   // const user = getUser(receiverID);
-  //   if (user) {
-  //     io.to(user.socketID).emit("getMessage", {
-  //       senderID,
-  //       text,
-  //     });
-  //   }
-  // });
-
-
-  // socket.on("sendNotification", ({ senderID, receiverID, text }) => {
-  //   const user = getUser(receiverID);
-  //   if (user) {
-  //     io.to(user.socketID).emit("getNotification", {
-  //       senderID,
-  //       text,
-  //     });
-  //   }
-  // });
-
-
 });
 
 server.listen(PORT, () => {

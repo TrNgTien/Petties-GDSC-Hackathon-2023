@@ -42,7 +42,7 @@ module.exports = {
         description: "",
         userAvatar: "https://cdn-icons-png.flaticon.com/512/6386/6386976.png",
         review: 0,
-        role: "petsitter",
+        role: "petowner",
         pets: [],
       };
       await db.collection("users").doc(userID).set(objUser);
@@ -78,7 +78,6 @@ module.exports = {
           message: "Incorrect UserName or Password",
         });
       }
-
       const { password, ...info } = user;
       const accessToken = jwt.sign({ userID: user.userID, role: user.role },
         process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5d' });

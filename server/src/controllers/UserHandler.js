@@ -63,10 +63,52 @@ module.exports = {
     }
   },
 
+  getPetsitters: async (req, res) => {
+    try {
+      if (req.user.role == "petowner") {
+        const userSnapshot = await db.collection("users").where("role", "==", "petsitter").get();
+        let users = [];
+        userSnapshot.forEach((x) =>
+          users.push({
+            ...x.data(),
+          })
+        );
+        return res.status(200).json({
+          total: users.length,
+          data: users,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Internal server error");
+    }
+  },
+  getPetsitter: async (req, res) => {
+    try {
+      if (req.user.role == "petowner") {
+        let userID = req.params.userID;
+        const userRef = await db.collection("users").doc(userID);
+        const result = await userRef.get();
+        if (!result.exists) {
+          return res.status(400).json({
+            message: "User not found",
+          });
+        } else {
+          return res.status(200).json({
+            data: result.data(),
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Internal server error");
+    }
+  },
+
   getReviews: async (req, res) => {
     try {
-      if (req.user.role == "petsitter") {
-        const reviewSnapshot = await db.collection("users").where("role", "==", "petowner").orderBy("review", "desc").get();
+      if (req.user.role == "petowner") {
+        const reviewSnapshot = await db.collection("users").where("role", "==", "petsitter").orderBy("review", "desc").get();
         let reviews = [];
         reviewSnapshot.forEach((x) =>
           reviews.push({
