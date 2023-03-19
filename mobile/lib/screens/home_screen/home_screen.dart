@@ -1,5 +1,6 @@
 import 'package:mobile/constants/color.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/widget/DraggableModal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,20 +13,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text("Home page",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 40,
-              color: primaryColor,
-              fontWeight: FontWeight.w700,
-            )),
-        SizedBox(
-          height: 40,
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => DraggableSheet(
+                child: Container(
+                  color: Colors.white,
+                  height: 500.0,
+                  child: const Center(
+                    child: Text('Drag me down to close'),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: Text('Show Draggable Sheet'),
         ),
-      ],
-    ));
+      ),
+    );
   }
 }

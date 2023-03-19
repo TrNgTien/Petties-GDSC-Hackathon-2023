@@ -1,7 +1,8 @@
+import 'package:mobile/screens/chat_screen/message_list.dart';
 import 'package:mobile/screens/home_screen/home_screen.dart';
 import 'package:mobile/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/ranking_screen/ranking_screen.dart';
+import 'package:mobile/screens/petsitter_screen/petsitter_screen.dart';
 import 'package:mobile/widget/bottom_nav.dart';
 import 'package:mobile/widget/splash_screen.dart';
 import 'package:mobile/constants/color.dart';
@@ -35,9 +36,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int selectedIndex = 0;
+
   List<Widget> widgetOptions = [
     const HomeScreen(),
-    const RankingScreen(),
+    const PetSitterScreen(),
+    const MessageList(),
     const ProfileScreen()
   ];
   void _onItemTapped(int index) {
@@ -49,17 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        elevation: 0,
-        backgroundColor: primaryBackground,
-        automaticallyImplyLeading: false,
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
       body: widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomNav(
         colorBackground: primaryColor,

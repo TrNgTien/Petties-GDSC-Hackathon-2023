@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import "package:mobile/constants/icons.dart";
+import "package:mobile/constants/color.dart";
 
 class BottomNav extends StatefulWidget {
   final Color? colorBackground;
@@ -25,43 +26,43 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: widget.colorBackground,
-      unselectedItemColor: widget.colorUnselectedItem,
-      selectedItemColor: widget.colorSelectedItem,
-      selectedFontSize: 16,
+      backgroundColor: Colors.white,
+      unselectedItemColor: grayColor,
+      selectedItemColor: selectedNavColor,
+      selectedFontSize: 14,
       unselectedFontSize: 13,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Container(
-              child: SvgPicture.asset(
-            playingIcon,
-            height: 30,
-            width: 30,
-            color: widget.selectedIndex == 0
-                ? widget.colorSelectedItem
-                : widget.colorUnselectedItem,
-          )),
+          icon: SvgPicture.asset(
+            homeIcon,
+            height: 20,
+            width: 20,
+            color: widget.selectedIndex == 0 ? selectedNavColor : grayColor,
+          ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
-            rankingIcon,
-            height: 30,
-            width: 30,
-            color: widget.selectedIndex == 1
-                ? widget.colorSelectedItem
-                : widget.colorUnselectedItem,
+            petSitters,
+            height: 20,
+            width: 20,
+            color: widget.selectedIndex == 1 ? selectedNavColor : grayColor,
           ),
-          label: 'Petties',
+          label: 'Pet Sitters',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.chat_bubble,
+            color: widget.selectedIndex == 2 ? selectedNavColor : grayColor,
+          ),
+          label: 'Messages',
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
             profileIcon,
-            height: 30,
-            width: 30,
-            color: widget.colorBackground == 2
-                ? widget.colorSelectedItem
-                : widget.colorUnselectedItem,
+            height: 20,
+            width: 20,
+            color: widget.selectedIndex == 3 ? selectedNavColor : grayColor,
           ),
           label: 'Profile',
         ),

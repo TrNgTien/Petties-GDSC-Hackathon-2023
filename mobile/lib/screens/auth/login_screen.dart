@@ -132,10 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   const RegisterScreen(),
-                              fullscreenDialog: true));
+                              fullscreenDialog: true);
                         },
                         child: const Padding(
                           padding: EdgeInsets.only(left: 10.0),

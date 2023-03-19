@@ -1,50 +1,65 @@
-const List<Map<String, dynamic>> userData = [
+const dynamic userData = [
   {
-    "userName": "Tien Tran",
-    "rating": 7,
-    "subject": ["Web Development", "Mobile Development"],
+    "userName": "Kristin Watson",
+    "reviews": 4.5,
+    "pets": ["Cat", "Dog"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
     "userAvatar":
-        "https://scontent.fhan4-1.fna.fbcdn.net/v/t39.30808-6/290542502_3196466427292528_6385761028561746295_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=WT_mebPK3mAAX82ehyd&_nc_ht=scontent.fhan4-1.fna&oh=00_AT9w8fwdP1NoK1Tv0h9GjdT0w62_2JMT6tQtMOJzjHBHyw&oe=63153DA4"
+        "https://znews-photo.zingcdn.me/w660/Uploaded/neg_esfjaex/2021_11_26/Kids_Children_Pets_Reasons_A180968348_1184x630.jpeg"
   },
   {
-    "userName": "Ken Pham",
-    "rating": 2,
-    "subject": ["Calculus 3", "Calculus 2"],
+    "userName": "Jenny Wilson",
+    "reviews": 2,
+    "pets": ["Tiger", "hamster", "cat"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
     "userAvatar":
-        "https://scontent.fsgn4-1.fna.fbcdn.net/v/t39.30808-6/248061039_3085496178395229_7024704407754795053_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=qfZ1eQooK5gAX-PJZWE&tn=QoCg8DwVmM9zQV8m&_nc_ht=scontent.fsgn4-1.fna&oh=00_AT9eOXlk07BoilgSoxgc1OA--ogt8t7hFf5yYg4bfcnFqA&oe=6315F320"
+        "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/28/1039174/Thu-Cung-1.jpg"
   },
   {
-    "userName": "Trần Trung Kiên",
-    "rating": 15,
-    "userAvatar": "https://ta-con-storage.s3.ap-southeast-1.amazonaws.com/74",
-    "subject": ["Calculus 1", "Calculus 2"],
+    "userName": "Leslie Alexander",
+    "reviews": 5,
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
+    "userAvatar":
+        "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/28/1039174/Thu-Cung-1.jpg",
+    "pets": ["Rabbit", "hamster"],
   },
   {
     "userName": "Haylie Septimus",
-    "rating": 25,
-    "subject": [
-      "International Economics",
-      "Logistics & Supply Chain Management",
-      "Strategy Formulation and Implementation"
-    ],
-    "userAvatar": "https://ta-con-storage.s3.ap-southeast-1.amazonaws.com/46"
+    "reviews": 3,
+    "pets": ["Rabbit", "hamster"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
+    "userAvatar":
+        "https://mcdn.coolmate.me/uploads/December2021/uu-nhuoc-diem-cua-viec-nuoi-thu-cung-1.jpg"
   },
   {
     "userName": "Angel Westervelt",
-    "rating": 55,
-    "subject": ["Physics 1", "Physics 2"],
-    "userAvatar": "https://ta-con-storage.s3.ap-southeast-1.amazonaws.com/47"
+    "reviews": 3.5,
+    "pets": ["Rabbit", "hamster"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
+    "userAvatar":
+        "https://znews-photo.zingcdn.me/w660/Uploaded/neg_esfjaex/2021_11_26/Kids_Children_Pets_Reasons_A180968348_1184x630.jpeg"
   },
   {
     "userName": "Maria Aminoff",
-    "rating": 5,
-    "subject": ["Calculus 3"],
-    "userAvatar": "https://ta-con-storage.s3.ap-southeast-1.amazonaws.com/67"
+    "reviews": 5,
+    "pets": ["Rabbit", "Dog"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
+    "userAvatar":
+        "https://znews-photo.zingcdn.me/w660/Uploaded/neg_esfjaex/2021_11_26/Kids_Children_Pets_Reasons_A180968348_1184x630.jpeg"
   },
   {
-    "userName": "Trần Văn Toàn",
-    "rating": 5,
-    "subject": ["OOP", "Computer Network", "Digital Logic Design"],
-    "userAvatar": "https://ta-con-storage.s3.ap-southeast-1.amazonaws.com/52"
+    "userName": "Leslie Alexander",
+    "reviews": 1,
+    "pets": ["Rabbit", "Hamster", "Cat"],
+    "description":
+        "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat.",
+    "userAvatar":
+        "https://mcdn.coolmate.me/uploads/December2021/uu-nhuoc-diem-cua-viec-nuoi-thu-cung-1.jpg"
   },
 ];
