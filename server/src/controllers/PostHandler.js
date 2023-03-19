@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const db = require("../database/firebase-connection");
+const { db } = require("../database/firestore-connection");
 
 module.exports = {
   getAllPosts: async (req, res) => {
@@ -40,8 +40,8 @@ module.exports = {
   },
   addPost: async (req, res) => {
     try {
+      const userID = req.user.userID;
       const { description, postAttachments } = req.body;
-      let userID = req.body.userID;
       const postID = uuidv4();
       let objPost = {
         postID: postID,

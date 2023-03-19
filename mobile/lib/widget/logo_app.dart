@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile/constants/icons.dart';
+import 'package:mobile/constants/images.dart';
 
 class LogoApp extends StatelessWidget {
   const LogoApp({super.key});
@@ -8,7 +8,7 @@ class LogoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      logoIcon,
+      welcomeImg,
       height: 200,
       width: 200,
     );

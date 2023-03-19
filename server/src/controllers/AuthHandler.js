@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 const { v4: uuidv4 } = require("uuid");
-const db = require("../database/firebase-connection")
+const { db } = require("../database/firestore-connection");
 
 module.exports = {
   register: async (req, res) => {
@@ -25,8 +26,9 @@ module.exports = {
       }
       let hashedPassword = await bcrypt.hashSync(password, saltRounds);
 
-      const checkEmail = await db.collection("users").where("email", "==", email).get();
-      if (checkEmail.empty) {
+      const checkEmail = await db.collection("users").where("email", "==", email);
+      const check = await checkEmail.get();
+      if (!check.empty) {
         return res.status(400).json({
           message: "Email already existed",
         });
@@ -40,6 +42,7 @@ module.exports = {
         description: "",
         userAvatar: "https://cdn-icons-png.flaticon.com/512/6386/6386976.png",
         review: 0,
+        role: "petowner",
         pets: [],
       };
       await db.collection("users").doc(userID).set(objUser);
@@ -59,7 +62,8 @@ module.exports = {
 
   login: async (req, res) => {
     try {
-      let { email, password } = req.body;
+      let { email, passwordInput } = req.body;
+      console.log(email, passwordInput);
       const checkEmai = await db.collection("users").where("email", "==", email).get();
       if (checkEmai.empty) {
         return res.status(400).json({
@@ -68,16 +72,16 @@ module.exports = {
       }
       let user = {};
       checkEmai.forEach((x) => (user = x.data()));
-      const checkPassword = await bcrypt.compareSync(password, user.password);
+      const checkPassword = await bcrypt.compareSync(passwordInput, user.password);
       if (!checkPassword) {
         return res.status(400).json({
           message: "Incorrect UserName or Password",
         });
       }
-      return res.status(200).json({
-        message: "Login Successfully",
-        data: user,
-      });
+      const { password, ...info } = user;
+      const accessToken = jwt.sign({ userID: user.userID, role: user.role },
+        process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5d' });
+      return res.status(200).json({ ...info, accessToken });
     } catch (error) {
       console.log(error);
       return res.status(500).json("Internal server error");

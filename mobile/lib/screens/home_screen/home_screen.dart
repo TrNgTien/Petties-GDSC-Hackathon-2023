@@ -1,5 +1,8 @@
 import 'package:mobile/constants/color.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/constants/images.dart';
+import 'package:mobile/utils/helper.dart';
+import 'package:mobile/widget/DraggableModal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,20 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text("Home page",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 40,
-              color: primaryColor,
-              fontWeight: FontWeight.w700,
-            )),
-        SizedBox(
-          height: 40,
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Image.asset(
+          homeImg,
+          fit: BoxFit.fitWidth,
         ),
-      ],
+      ),
     ));
   }
 }

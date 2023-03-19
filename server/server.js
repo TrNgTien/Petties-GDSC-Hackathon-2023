@@ -1,18 +1,19 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const routes = require("./src/routes/index.js");
 const path = require('path')
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-dotenv.config();
-const admin = require('firebase-admin');
+const swaggerUi = require('swagger-ui-express');
+const bodyParser = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
 
 //Detect mode
 const mode = process.env.NODE_ENV || "development";
 const config = require("config").get(mode);
-
 const PORT = process.env.PORT || config.port;
 
 app.use(express.json());
@@ -27,9 +28,73 @@ app.get("/", (req, res) => {
   res.send("<h1>RESTful called successfully!</h1>");
 });
 
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Petties-GDSC-Hackathon-2023",
+      version: "0.1.0",
+      description:
+        "This is a Petties-GDSC-Hackathon-2023 API documentation.",
+      contact: {
+        name: "Tien Tran",
+        url: "linkedin.com/in/trngtien",
+      }
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      }
+    },
+    security: [{
+      bearerAuth: []
+    }],
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: ["./src/routes/*.js"],
+};
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
+
 app.post("/test", (req, res) => {
   const token = req.body.token;
   console.log('Received token:', token);
+
+  try {
+    let message = {
+      notification: {
+        title: 'Title of your push notification',
+        body: 'Body of your push notification',
+      },
+      data: {
+        message: 'This is a Firebase Cloud Messaging Topic Message!',
+      },
+      token: token,
+    }
+
+    FCM.send(message, function (err, response) {
+      if (err) {
+        console.log("Something has gone wrong!");
+      } else {
+        console.log("Successfully sent with response: ", response);
+      }
+    });
+  } catch (error) {
+    console.log(error)
+  }
 
   if (socket) {
     console.log('Assigning Socket.IO connection to token:', token);
@@ -55,8 +120,6 @@ var FCM = new fcm('./serviceAccountKey.json');
 // var fcm = new FCM(serverKey);
 
 const { getAllUsers, formatMessage, userJoin, getCurrentUser, userLeave } = require('./user');
-const { route } = require("./src/routes/UserRoute.js");
-const ChatHandler = require("./src/controllers/ChatHandler.js");
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ userName, room }) => {
