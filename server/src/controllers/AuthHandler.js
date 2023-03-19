@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 const { v4: uuidv4 } = require("uuid");
-const db = require("../database/firestore-connection")
+const { db } = require("../database/firestore-connection");
 
 module.exports = {
   register: async (req, res) => {

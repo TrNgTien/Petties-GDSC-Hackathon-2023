@@ -1,4 +1,5 @@
-const db = require("../database/firestore-connection")
+const { v4: uuidv4 } = require("uuid");
+const { db, storage } = require("../database/firestore-connection");
 
 module.exports = {
   getAllUser: async (req, res) => {
@@ -119,10 +120,62 @@ module.exports = {
     }
   },
 
+  uploadAvatar: async (req, res) => {
+    try {
+      const userID = req.params.userID;
+      if (!req.file) {
+        return res.status(400).json({
+          message: "No file uploaded",
+        });
+      };
+
+      const image = req.file;
+      const uniqueFilename = `${uuidv4()}.jpg`;
+      const blob = storage.file("images/" + uniqueFilename);
+
+      const stream = blob.createWriteStream({
+        metadata: {
+          contentType: image.mimetype,
+        },
+      });
+
+      stream.on("error", (error) => {
+        console.log(error);
+        return res.status(500).json("Internal server error");
+      });
+
+      stream.on("finish", async () => {
+        await blob.makePublic();
+        const publicUrl = `https://storage.googleapis.com/${blob.metadata.bucket}/${blob.metadata.name}`;
+        console.log(publicUrl);
+        
+        const userRef = await db.collection("users").doc(userID);
+        const result = await userRef.get();
+        if (!result.exists) {
+          return res.status(400).json({
+            message: "User not found",
+          });
+        }
+        await userRef.update({
+          userAvatar: publicUrl,
+        });
+        return res.status(200).json({
+          message: "Upload avatar successfully",
+          data: publicUrl,
+        });
+      });
+
+      stream.end(image.buffer);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Internal server error");
+    }
+  },
+
   getUserInformation: async (req, res) => {
     try {
       if (req.user.role == "petsitter") {
-        const userID = req.user.userID;
+        const userID = req.params.userID;
         const userRef = await db.collection("users").doc(userID);
         const result = await userRef.get();
         if (!result.exists) {
@@ -188,9 +241,9 @@ module.exports = {
           message: "Delete successfully!",
         });
       }
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json("Internal server error");
-      }
-    },
-  };
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Internal server error");
+    }
+  },
+};
